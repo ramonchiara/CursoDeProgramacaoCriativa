@@ -6,6 +6,14 @@ const settings = {
     animate: true
 };
 
+/*
+const animate = () => {
+    console.log('domestika');
+    requestAnimationFrame(animate);
+}
+animate();
+*/
+
 const sketch = ({ context, width, height }) => {
     const agents = [];
 
