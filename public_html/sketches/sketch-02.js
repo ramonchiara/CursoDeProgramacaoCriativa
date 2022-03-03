@@ -4,6 +4,10 @@ const settings = {
     dimensions: [1080, 1080]
 };
 
+const degToRad = (degrees) => {
+    return degrees / 180 * Math.PI;
+}
+
 const sketch = () => {
     return ({ context, width, height }) => {
         context.fillStyle = 'white';
@@ -13,25 +17,26 @@ const sketch = () => {
 
         const x = width * 0.5;
         const y = height * 0.5;
-        const w = width * 0.3;
-        const h = height * 0.3;
+        const w = width * 0.01;
+        const h = height * 0.1;
 
-        context.save();
-        context.translate(x, y);
-        context.rotate(0.3);
+        const num = 12;
 
-        context.beginPath();
-        // context.rect(0, 0, w, h);
-        // context.rect(x, y, w, h);
-        context.rect(-w * 0.5, -h * 0.5, w, h);
-        context.fill();
-        context.restore();
-        
-        context.translate(100, 400);
-        
-        context.beginPath();
-        context.arc(0, 0, 50, 0, Math.PI * 2);
-        context.fill();
+        for (let i = 0; i < num; i++) {
+            const slice = degToRad(360 / num);
+            const angle = slice * i;
+
+            context.save();
+            context.translate(x, y);
+            context.rotate(angle);
+
+            context.beginPath();
+            // context.rect(0, 0, w, h);
+            // context.rect(x, y, w, h);
+            context.rect(-w * 0.5, -h * 0.5, w, h);
+            context.fill();
+            context.restore();
+    }
     };
 };
 
