@@ -13,14 +13,14 @@ const sketch = () => {
 
         context.fillStyle = 'black';
 
-        const cx = width * 0.5;
-        const cy = height * 0.5;
+        const cx = width;
+        const cy = 0;
 
         const w = width * 0.01;
         const h = height * 0.1;
 
-        const num = 5;
-        const radius = width * 0.3;
+        const num = 100;
+        const radius = 0.7 * width;
 
         let x, y;
 
@@ -34,11 +34,9 @@ const sketch = () => {
             context.save();
             context.translate(x, y);
             context.rotate(-angle);
-            context.scale(random.range(0.1, 2), random.range(0.1, 2));
+            context.scale(random.range(0.1, 2), random.range(0.2, 0.5));
 
             context.beginPath();
-            // context.rect(0, 0, w, h);
-            // context.rect(x, y, w, h);
             context.rect(-w * 0.5, random.range(0, -h * 0.5), w, h);
             context.fill();
             context.restore();
@@ -47,10 +45,10 @@ const sketch = () => {
             context.translate(cx, cy);
             context.rotate(-angle);
 
-            context.lineWidth = random.range(1, 5);
+            context.lineWidth = random.range(5, 20);
 
             context.beginPath();
-            context.arc(0, 0, radius * random.range(0.1, 0.9), slice * random.range(1, -8), slice * random.range(1, 1));
+            context.arc(0, 0, radius * random.range(0.7, 1.3), slice * random.range(1, -8), slice * random.range(1, 5));
             context.stroke();
             context.restore();
     }
