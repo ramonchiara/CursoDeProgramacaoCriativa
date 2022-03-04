@@ -1,11 +1,25 @@
 const canvasSketch = require('canvas-sketch');
 const random = require('canvas-sketch-util/random');
 const math = require('canvas-sketch-util/math');
+const Tweakpane = require('tweakpane');
 
 const settings = {
     dimensions: [1080, 1080],
     animate: true
 };
+
+const params = {
+    bounce: true,
+};
+
+const createPane = () => {
+    const pane = new Tweakpane.Pane();
+    let folder;
+
+    folder = pane.addFolder({title: 'Controls'});
+    folder.addInput(params, 'bounce', {options: {bounce: true, wrap: false}});
+};
+
 
 const sketch = ({ context, width, height }) => {
     const agents = [];
@@ -44,11 +58,16 @@ const sketch = ({ context, width, height }) => {
         agents.forEach(agent => {
             agent.update();
             agent.draw(context);
-            agent.bounce(width, height);
+            if (params.bounce) {
+                agent.bounce(width, height);
+            } else {
+                agent.wrap(width, height)
+            }
         })
     };
 };
 
+createPane();
 canvasSketch(sketch, settings);
 
 class Vector {
@@ -77,6 +96,17 @@ class Agent {
             this.vel.x *= -1;
         if (this.pos.y <= 0 || this.pos.y >= height)
             this.vel.y *= -1;
+    }
+
+    wrap(width, height) {
+        if (this.pos.x < 0)
+            this.pos.x = width;
+        if (this.pos.x > width)
+            this.pos.x = 0;
+        if (this.pos.y < 0)
+            this.pos.y = height;
+        if (this.pos.y > height)
+            this.pos.y = 0;
     }
 
     update() {
