@@ -3,11 +3,17 @@ const math = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 
 const settings = {
-    dimensions: [1080, 1080]
+    dimensions: [1080, 1080],
+    animate: true
 };
 
+const minA = 0.25;
+const maxA = 1.75;
+const t = 100;
+let up = true;
+
 const sketch = () => {
-    return ({ context, width, height }) => {
+    return ({ context, width, height, frame }) => {
         context.fillStyle = 'white';
         context.fillRect(0, 0, width, height);
 
@@ -20,7 +26,9 @@ const sketch = () => {
         const h = height * 0.1;
 
         const num = 100;
-        const radius = 0.7 * width;
+        const f = frame % t;
+        const a = math.mapRange(f, 0, t - 1, (up ? minA : maxA), (up ? maxA : minA));
+        const radius = a * 0.7 * width;
 
         let x, y;
 
@@ -51,7 +59,10 @@ const sketch = () => {
             context.arc(0, 0, radius * random.range(0.7, 1.3), slice * random.range(1, -8), slice * random.range(1, 5));
             context.stroke();
             context.restore();
-    }
+        }
+
+        if (f === t - 1)
+            up = !up;
     };
 };
 
