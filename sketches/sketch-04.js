@@ -17,12 +17,14 @@ const params = {
     amp: 0.2,
     frame: 0,
     animate: true,
-    lineCap: 'butt'
+    lineCap: 'butt',
+    bgColor: 'rgb(255, 127, 0)',
+    gridColor: 'rgb(255, 255, 0)',
 };
 
 const sketch = () => {
     return ({ context, width, height, frame }) => {
-        context.fillStyle = 'white';
+        context.fillStyle = params.bgColor; // 'white';
         context.fillRect(0, 0, width, height);
 
         const cols = params.cols;
@@ -36,6 +38,7 @@ const sketch = () => {
         const margx = (width - gridw) * 0.5;
         const margy = (height - gridh) * 0.5;
 
+        context.strokeStyle = params.gridColor;
         for (let i = 0; i < numCells; i++) {
             const col = i % cols;
             const row = Math.floor(i / cols);
@@ -87,6 +90,10 @@ const createPane = () => {
 
     folder.addInput(params, 'animate');
     folder.addInput(params, 'frame', {min: 0, max: 999});
+
+    folder = pane.addFolder({title: 'Colors '});
+    folder.addInput(params, 'bgColor');
+    folder.addInput(params, 'gridColor');
 };
 
 createPane();
